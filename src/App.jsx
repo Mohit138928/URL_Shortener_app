@@ -7,13 +7,15 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
+      <div className="h-screen w-screen flex flex-col overflow-hidden bg-gray-100">
         <Navigation />
-        <main className="py-8">
-          <Routes>
-            <Route path="/" element={<UrlShortener />} />
-            <Route path="/admin" element={<AdminPage />} />
-          </Routes>
+        <main className="flex-1 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full h-full flex items-center justify-center">
+            <Routes>
+              <Route path="/" element={<UrlShortener />} />
+              <Route path="/admin" element={<AdminPage />} />
+            </Routes>
+          </div>
         </main>
       </div>
     </Router>

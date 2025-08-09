@@ -53,16 +53,16 @@ const UrlShortener = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+    <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg h-fit">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 text-gray-800">
         URL Shortener
       </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <div>
           <label
             htmlFor="url"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm sm:text-base font-medium text-gray-700 mb-2"
           >
             Enter your long URL
           </label>
@@ -72,7 +72,7 @@ const UrlShortener = () => {
             value={originalUrl}
             onChange={(e) => setOriginalUrl(e.target.value)}
             placeholder="https://example.com/very/long/url"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm sm:text-base"
             disabled={loading}
           />
         </div>
@@ -80,48 +80,50 @@ const UrlShortener = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-4 rounded-lg transition duration-200"
+          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-2 sm:py-3 px-4 rounded-lg transition duration-200 text-sm sm:text-base"
         >
           {loading ? "Shortening..." : "Shorten URL"}
         </button>
       </form>
 
       {error && (
-        <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+        <div className="mt-4 p-3 sm:p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm sm:text-base">
           {error}
         </div>
       )}
 
       {shortenedUrl && (
-        <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <h3 className="text-lg font-semibold text-green-800 mb-2">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg">
+          <h3 className="text-base sm:text-lg font-semibold text-green-800 mb-2">
             Your shortened URL:
           </h3>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
             <input
               type="text"
               value={shortenedUrl}
               readOnly
-              className="flex-1 px-3 py-2 bg-white border border-green-300 rounded text-green-700"
+              className="flex-1 px-2 sm:px-3 py-2 bg-white border border-green-300 rounded text-green-700 text-xs sm:text-sm"
             />
-            <button
-              onClick={copyToClipboard}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition duration-200"
-            >
-              {copied ? "Copied!" : "Copy"}
-            </button>
-            <a
-              href={shortenedUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition duration-200"
-            >
-              Test
-            </a>
+            <div className="flex space-x-2">
+              <button
+                onClick={copyToClipboard}
+                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded transition duration-200 text-xs sm:text-sm"
+              >
+                {copied ? "Copied!" : "Copy"}
+              </button>
+              <a
+                href={shortenedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition duration-200 text-center text-xs sm:text-sm"
+              >
+                Test
+              </a>
+            </div>
           </div>
           <button
             onClick={resetForm}
-            className="mt-3 text-green-600 hover:text-green-800 underline"
+            className="mt-3 text-green-600 hover:text-green-800 underline text-sm sm:text-base"
           >
             Shorten another URL
           </button>
