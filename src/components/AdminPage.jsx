@@ -6,11 +6,25 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const API_BASE_URL = "http://localhost:5000";
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
-    fetchUrls();
-  }, []);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${API_BASE_URL}/api/urls`);
+        setUrls(response.data);
+        setError("");
+      } catch (err) {
+        setError(err.response?.data?.error || "Failed to fetch URLs");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [API_BASE_URL]);
 
   const fetchUrls = async () => {
     try {
