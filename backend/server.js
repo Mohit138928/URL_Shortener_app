@@ -47,10 +47,44 @@ const connectDB = async () => {
 // Routes
 app.use("/api", apiRoutes);
 
-// Redirect route - GET /:shortcode
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "URL Shortener API",
+    version: "1.0.0",
+    endpoints: {
+      health: "/health",
+      shorten: "/api/shorten",
+      urls: "/api/urls",
+      redirect: "/:shortcode",
+    },
+    status: "running",
+  });
+});
+
+// Health check route (must come before /:shortcode)
+app.get("/health", (req, res) => {
+  res.json({
+    status: "OK",
+    message: "URL Shortener API is running",
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || "development",
+  });
+});
+
+// Redirect route - GET /:shortcode (must come after specific routes)
 app.get("/:shortcode", async (req, res) => {
   try {
     const { shortcode } = req.params;
+
+    // Skip health and other system routes
+    if (
+      shortcode === "health" ||
+      shortcode === "api" ||
+      shortcode.startsWith("_")
+    ) {
+      return res.status(404).json({ error: "Route not found" });
+    }
 
     // Find URL by short code
     const url = await Url.findOne({ short_code: shortcode });
@@ -69,11 +103,6 @@ app.get("/:shortcode", async (req, res) => {
     console.error("Error redirecting:", error);
     res.status(500).json({ error: "Server error" });
   }
-});
-
-// Health check route
-app.get("/health", (req, res) => {
-  res.json({ status: "OK", message: "URL Shortener API is running" });
 });
 
 // 404 handler for API routes
